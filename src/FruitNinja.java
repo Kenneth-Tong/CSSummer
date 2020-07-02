@@ -15,9 +15,11 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
     private ArrayList<Rectangle> trail = new ArrayList<>();
     private Timer timer;
     private Point mouseLocation;
-    private int score, lives = 3;
+    private int score, lives = 1, peaches = 0, apples = 0, watermelons = 0, bananas = 0, oranges = 0;
+    private boolean game;
 
     public FruitNinja() {
+        game = true;
         mouseLocation = new Point(-10, -10);
         for(int i = 0; i < 100; i++)
             trail.add(i, new Rectangle((int) mouseLocation.getX(), (int) mouseLocation.getY(), 10, 10));
@@ -94,13 +96,29 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
                 g.fill(n);
             moveTrail();
         } else {
-            g.setFont(new Font("Comic Sans", BOLD, 42));
-            g.setColor(Color.WHITE);
-            g.drawString("You Lost! Points: " + score + " points", 10, 300);
-            repaint();
-            timer.stop();
+            if(game)
+                endgame();
         }
         repaint();
+    }
+    public void endgame() {
+        game = false;
+        JOptionPane.showMessageDialog(null,"You lost!\nPoints Scored: " + score + "\n[" + peaches + " peaches," + apples + " apples," + bananas + " bananas," + oranges + " oranges," + watermelons + " watermelons]", "Fruit Ninja", JOptionPane.PLAIN_MESSAGE);
+        int answer = JOptionPane.showConfirmDialog(null, "Try again?", "Fruit Ninja", JOptionPane.YES_NO_OPTION);
+        if(answer == JOptionPane.YES_OPTION)
+            reset();
+        else
+            System.exit(0);
+    }
+    public void reset() {
+        score = 0;
+        peaches = 0;
+        watermelons = 0;
+        apples = 0;
+        oranges = 0;
+        bananas = 0;
+        lives = 3;
+        game = true;
     }
     public void checkFruits() { //out of bounds
         for(int b = 0; b < list.size(); b++) {
@@ -124,6 +142,18 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
             trail.set(i, trail.get(i - 1));
         trail.set(0, new Rectangle((int) mouseLocation.getX() - 5, (int) mouseLocation.getY() - 5, 10, 10));
     }
+    public void addPointsToList(Fruit n) {
+        if(n instanceof Watermelon)
+            watermelons++;
+        else if(n instanceof Peach)
+            peaches++;
+        else if(n instanceof Orange)
+            oranges++;
+        else if(n instanceof Banana)
+            bananas++;
+        else if(n instanceof Apple)
+            apples++;
+    }
     public void checkMouseLocation() {
         for(ObjectMoving n: list) {
             if(!n.getCut())
@@ -134,6 +164,7 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
                             score *= 2;
                         else
                             score += ((Fruit) n).getScore();
+                        addPointsToList((Fruit) n);
                     } else
                         lives--;
                 }
@@ -141,9 +172,7 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
         repaint();
     }
     public boolean collides(Shape n) {
-        if(n.contains(mouseLocation))
-            return true;
-        return false;
+        return n.contains(mouseLocation);
     }
     public void mouseClicked(MouseEvent e) {
     }

@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class ObjectMoving implements Cutable, Moveable {
+public abstract class ObjectMoving implements Cuttable, Moveable {
     private Color color;
     private String name;
     private boolean cut;

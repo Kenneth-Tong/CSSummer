@@ -15,7 +15,7 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
     private ArrayList<Rectangle> trail = new ArrayList<>();
     private Timer timer;
     private Point mouseLocation;
-    private int score, lives = 1, peaches = 0, apples = 0, watermelons = 0, bananas = 0, oranges = 0;
+    private int score, lives = 3, peaches = 0, apples = 0, watermelons = 0, bananas = 0, oranges = 0;
     private boolean game;
 
     public FruitNinja() {
@@ -103,7 +103,7 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
     }
     public void endgame() {
         game = false;
-        JOptionPane.showMessageDialog(null,"You lost!\nPoints Scored: " + score + "\n[" + peaches + " peaches," + apples + " apples," + bananas + " bananas," + oranges + " oranges," + watermelons + " watermelons]", "Fruit Ninja", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null,"You lost!\nPoints Scored: " + score + "\n[" + peaches + " peaches, " + apples + " apples, " + bananas + " bananas, " + oranges + " oranges, " + watermelons + " watermelons]", "Fruit Ninja", JOptionPane.PLAIN_MESSAGE);
         int answer = JOptionPane.showConfirmDialog(null, "Try again?", "Fruit Ninja", JOptionPane.YES_NO_OPTION);
         if(answer == JOptionPane.YES_OPTION)
             reset();
@@ -119,6 +119,7 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
         bananas = 0;
         lives = 3;
         game = true;
+        list.clear();
     }
     public void checkFruits() { //out of bounds
         for(int b = 0; b < list.size(); b++) {

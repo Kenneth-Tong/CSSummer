@@ -1,4 +1,4 @@
-public interface Cutable {
+public interface Cuttable {
     boolean getCut();
     void setSound();
 }

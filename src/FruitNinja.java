@@ -37,37 +37,40 @@ public class FruitNinja extends JPanel implements ActionListener, MouseListener 
             d.printStackTrace();
         }
     }
-    public void createFruits() {
-        if((int) (Math.random() * 10000) % 33 == 0) {
-            switch((int) (Math.random() * 8)) {
+    public void createFruits(boolean bomb) {
+        if(bomb)
+            list.add(new Bomb());
+        else
+            switch((int) (Math.random() * 5)) {
                 case 0:
                     list.add(new Apple());
                     break;
                 case 1:
                     list.add(new Banana());
                     break;
-                default:
-                    list.add(new Bomb());
-                    break;
-                case 3:
+                case 2:
                     list.add(new Orange());
                     break;
-                case 4:
+                case 3:
                     list.add(new Peach());
                     break;
-                case 5:
+                case 4:
                     list.add(new Watermelon());
                     break;
             }
-        }
     }
     public void actionPerformed(ActionEvent e) {
         try {
-            mouseLocation = new Point((int) (MouseInfo.getPointerInfo().getLocation().getX() - this.getLocationOnScreen().getX()), (int) (MouseInfo.getPointerInfo().getLocation().getY() - this.getLocationOnScreen().getY()));
+            mouseLocation = new Point((int) (MouseInfo.getPointerInfo().getLocation().getX() - this.getLocationOnScreen().getX()),
+                    (int) (MouseInfo.getPointerInfo().getLocation().getY() - this.getLocationOnScreen().getY()));
         } catch (IllegalComponentStateException k) {
             mouseLocation = new Point(-10, -10);
         }
-        createFruits();
+        if((int) (Math.random() * 10000) % 33 == 0)
+            if((int) (Math.random() * 4) == 1)
+                createFruits(true);
+            else
+                createFruits(false);
         checkMouseLocation();
         checkFruits();
     }
